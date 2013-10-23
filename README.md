@@ -1,0 +1,4 @@
+swa
+===
+
+SWA-Projekt
