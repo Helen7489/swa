@@ -1,12 +1,22 @@
 package de.shop.bestellverwaltung.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 
-public class Bestellung {
+import javax.xml.bind.annotation.XmlTransient;
+
+import de.shop.kundenverwaltung.domain.Kunde;
+
+public class Bestellung implements Serializable{
+
+	private static final long serialVersionUID = -4802402419256415365L;
 	
 	private Long id;
 	private Boolean ausgeliefert;
 	private URI kundeUri;
+	
+	@XmlTransient
+	private Kunde kunde;
 	
 //	Konstruktor
 	
