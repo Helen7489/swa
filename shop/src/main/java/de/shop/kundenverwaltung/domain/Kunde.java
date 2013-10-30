@@ -1,11 +1,26 @@
+//FIXME @XmlAccessorType(FIELD) (vlt auch komplett unnötig)
+//braucht package-info.java. (ka, ob aus bsp2)
 package de.shop.kundenverwaltung.domain;
+import java.net.URI;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import de.shop.bestellverwaltung.domain.Bestellung;
+
+@XmlRootElement
 public class Kunde {
 	private Long id;
 	private String nachname;
 	private String vorname;
 	//TODO Adresse sobald die Klasse angelegt ist
 	private String email;
+	
+@XmlTransient
+	private List<Bestellung> bestellungen;
+	private URI bestellungenUri;
+	
 	public Kunde(Long id, String nachname, String vorname, String email) {
 		super();
 		this.id = id;
@@ -13,7 +28,7 @@ public class Kunde {
 		this.vorname = vorname;
 		this.email = email;
 	}
-	//TODO private List<Bestellung> bestellungen;
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +53,21 @@ public class Kunde {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public List<Bestellung> getBestellungen() {
+		return bestellungen;
+	}
+
+	public void setBestellungen(List<Bestellung> bestellungen) {
+		this.bestellungen = bestellungen;
+	}
+	public URI getBestellungenUri() {
+		return bestellungenUri;
+	}
+
+	public void setBestellungenUri(URI bestellungenUri) {
+		this.bestellungenUri = bestellungenUri;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -85,6 +115,8 @@ public class Kunde {
 		return "Kunde [id=" + id + ", nachname=" + nachname + ", vorname="
 				+ vorname + ", email=" + email + "]";
 	}
+
+	
 	
 
 }
