@@ -1,4 +1,4 @@
-/*package de.shop.util;
+package de.shop.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,11 +8,11 @@ import java.util.Set;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
-*/
+
 /**
  * Emulation des Anwendungskerns
  */
-/*
+
 public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
@@ -25,45 +25,50 @@ public final class Mock {
 		if (id > MAX_ID) {
 			return null;
 		}
-		
-		final AbstractKunde kunde = id % 2 == 1 ? new Privatkunde() : new Firmenkunde();
+		final Kunde kunde = new Kunde();
+		//final AbstractKunde kunde = id % 2 == 1 ? new Privatkunde() : new Firmenkunde();
 		kunde.setId(id);
 		kunde.setNachname("Nachname" + id);
+		kunde.setVorname("Vorname" + id);
 		kunde.setEmail("" + id + "@hska.de");
-		
+		//TODO Klasse Adresse
+		/*
 		final Adresse adresse = new Adresse();
 		adresse.setId(id + 1);        // andere ID fuer die Adresse
 		adresse.setPlz("12345");
 		adresse.setOrt("Testort");
 		adresse.setKunde(kunde);
 		kunde.setAdresse(adresse);
+		*/
 		
-		if (kunde.getClass().equals(Privatkunde.class)) {
+		//komplett unnötig für uns
+		
+		/*if (kunde.getClass().equals(Privatkunde.class)) {
 			final Privatkunde privatkunde = (Privatkunde) kunde;
 			final Set<HobbyType> hobbies = new HashSet<>();
 			hobbies.add(HobbyType.LESEN);
 			hobbies.add(HobbyType.REISEN);
 			privatkunde.setHobbies(hobbies);
 		}
-		
+		*/
 		return kunde;
 	}
 
-	public static List<AbstractKunde> findAllKunden() {
+	public static List<Kunde> findAllKunden() {
 		final int anzahl = MAX_KUNDEN;
-		final List<AbstractKunde> kunden = new ArrayList<>(anzahl);
+		final List<Kunde> kunden = new ArrayList<>(anzahl);
 		for (int i = 1; i <= anzahl; i++) {
-			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
+			final Kunde kunde = findKundeById(Long.valueOf(i));
 			kunden.add(kunde);			
 		}
 		return kunden;
 	}
 
-	public static List<AbstractKunde> findKundenByNachname(String nachname) {
+	public static List<Kunde> findKundenByNachname(String nachname) {
 		final int anzahl = nachname.length();
-		final List<AbstractKunde> kunden = new ArrayList<>(anzahl);
+		final List<Kunde> kunden = new ArrayList<>(anzahl);
 		for (int i = 1; i <= anzahl; i++) {
-			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
+			final Kunde kunde = findKundeById(Long.valueOf(i));
 			kunde.setNachname(nachname);
 			kunden.add(kunde);			
 		}
@@ -92,6 +97,7 @@ public final class Mock {
 		
 		final Kunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
 
+		//TODO konstruktor für bestellung löschen
 		final Bestellung bestellung = new Bestellung();
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
@@ -100,21 +106,23 @@ public final class Mock {
 		return bestellung;
 	}
 
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
+	public static Kunde createKunde(Kunde kunde) {
 		// Neue IDs fuer Kunde und zugehoerige Adresse
 		// Ein neuer Kunde hat auch keine Bestellungen
 		final String nachname = kunde.getNachname();
 		kunde.setId(Long.valueOf(nachname.length()));
+		/*
 		final Adresse adresse = kunde.getAdresse();
 		adresse.setId((Long.valueOf(nachname.length())) + 1);
 		adresse.setKunde(kunde);
+		*/
 		kunde.setBestellungen(null);
 		
 		System.out.println("Neuer Kunde: " + kunde);
 		return kunde;
 	}
 
-	public static void updateKunde(AbstractKunde kunde) {
+	public static void updateKunde(Kunde kunde) {
 		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
 
@@ -122,6 +130,6 @@ public final class Mock {
 		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
 	}
 		
-	private Mock() { /**/ //} 
-//}
+	private Mock() { } 
+}
 
