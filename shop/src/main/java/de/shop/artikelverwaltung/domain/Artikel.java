@@ -1,50 +1,37 @@
 package de.shop.artikelverwaltung.domain;
 
 public class Artikel {
+	private Long id;
+	private String bezeichnung;
+
+	// Konstruktor
+	
 	public Artikel(Long id, String bezeichnung) {
 		super();
 		this.id = id;
 		this.bezeichnung = bezeichnung;
 	}
-
-
-
-	private Long id;
-	private String bezeichnung;
-
 	
+	// Getter und Setter
 	
-	@Override
-	public String toString() {
-		return "Artikel [id=" + id + ", bezeichnung=" + bezeichnung + "]";
-	}
-
-
-
 	public Long getId() {
 		return id;
 	}
-
-
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-
+	
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
-
-
-
+	
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
-
-
-
+	
+	//hash Code
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -54,9 +41,9 @@ public class Artikel {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
-
-
+	
+	//equals
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -78,5 +65,14 @@ public class Artikel {
 			return false;
 		return true;
 	}
+	
+	// toString
+	
+	@Override
+	public String toString() {
+		return "Artikel [id=" + id + ", bezeichnung=" + bezeichnung + "]";
+	}
+	
+
 
 }
