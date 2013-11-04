@@ -1,4 +1,4 @@
-/*package de.shop.util;
+package de.shop.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,11 +8,10 @@ import java.util.Set;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
-*/
+
 /**
  * Emulation des Anwendungskerns
  */
-/*
 public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
@@ -20,7 +19,7 @@ public final class Mock {
 
 	// TODO Methoden anpassen
 	
-	
+	/*
 	public static Kunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
@@ -69,6 +68,10 @@ public final class Mock {
 		}
 		return kunden;
 	}
+
+	*/
+	
+	// Bestellung suchen mit Kunde
 	
 	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
 		
@@ -84,7 +87,9 @@ public final class Mock {
 		
 		return bestellungen;
 	}
-
+	
+	
+	// Bestellung suchen mit ID
 	public static Bestellung findBestellungById(Long id) {
 		if (id > MAX_ID) {
 			return null;
@@ -99,7 +104,9 @@ public final class Mock {
 		
 		return bestellung;
 	}
+	
 
+	/*
 	public static AbstractKunde createKunde(AbstractKunde kunde) {
 		// Neue IDs fuer Kunde und zugehoerige Adresse
 		// Ein neuer Kunde hat auch keine Bestellungen
@@ -121,7 +128,8 @@ public final class Mock {
 	public static void deleteKunde(Long kundeId) {
 		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
 	}
-		
-	private Mock() { /**/ //} 
-//}
+	*/
+	
+	private Mock() { /**/ } 
+}
 
