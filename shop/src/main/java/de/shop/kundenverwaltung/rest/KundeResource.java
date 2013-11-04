@@ -50,7 +50,8 @@ public class KundeResource {
 	@Context
 	private UriInfo uriInfo;
 	
-	//TODO inject bestellung ressource
+	@Inject
+	private BestellungResource bestellungResource;
 	
 	@Inject
 	private UriHelper uriHelper;
@@ -172,7 +173,7 @@ public class KundeResource {
 		
 		// URIs innerhalb der gefundenen Bestellungen anpassen
 		for (Bestellung bestellung : bestellungen) {
-			BestellungResource.setStructuralLinks(bestellung, uriInfo);
+			bestellungResource.setStructuralLinks(bestellung, uriInfo);
 		}
 		
 		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
@@ -189,12 +190,12 @@ public class KundeResource {
                               .rel(SELF_LINK)
                               .build();
 		
-		final Link first = Link.fromUri(BestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
+		final Link first = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
 	                           .rel(FIRST_LINK)
 	                           .build();
 		final int lastPos = bestellungen.size() - 1;
 		
-		final Link last = Link.fromUri(BestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
+		final Link last = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
                               .rel(LAST_LINK)
                               .build();
 		
