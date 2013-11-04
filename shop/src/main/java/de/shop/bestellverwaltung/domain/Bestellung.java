@@ -17,17 +17,8 @@ public class Bestellung implements Serializable{
 	
 	@XmlTransient
 	private Kunde kunde;
-	
-//	Konstruktor
-	
-	public Bestellung(Long id, Boolean ausgeliefert, URI kundeUri) {
-		super();
-		this.id = id;
-		this.ausgeliefert = ausgeliefert;
-		this.kundeUri = kundeUri;	
-		
-	}
 
+	
 //	Getter & Setter
 	
 	public Long getId() {
@@ -56,6 +47,14 @@ public class Bestellung implements Serializable{
 	
 //	hashcode ID
 	
+	public Kunde getKunde() {
+		return kunde;
+	}
+
+	public void setKunde(Kunde kunde) {
+		this.kunde = kunde;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
