@@ -20,7 +20,8 @@ public class Kunde {
 @XmlTransient
 	private List<Bestellung> bestellungen;
 	private URI bestellungenUri;
-	
+	//Konstruktor nicht nutzbar - Konflikte mit Mock
+	/*
 	public Kunde(Long id, String nachname, String vorname, String email) {
 		super();
 		this.id = id;
@@ -28,7 +29,7 @@ public class Kunde {
 		this.vorname = vorname;
 		this.email = email;
 	}
-	
+	*/
 	public Long getId() {
 		return id;
 	}
