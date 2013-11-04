@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 
 
@@ -77,6 +78,20 @@ public final class Mock {
 		//bestellung.setKunde(kunde);
 		
 		return bestellung;
+	}
+	
+	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
+		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
+		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
+		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Bestellung bestellung = findBestellungById(Long.valueOf(i));
+			bestellung.setKunde(kunde);
+			bestellungen.add(bestellung);			
+		}
+		kunde.setBestellungen(bestellungen);
+		
+		return bestellungen;
 	}
 	
 	// TODO createBestellung siehe id

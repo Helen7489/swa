@@ -8,6 +8,7 @@ import de.shop.util.Mock;
 import de.shop.util.rest.UriHelper;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
+import de.shop.kundenverwaltung.domain.Adresse;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -74,14 +75,14 @@ public class KundeResource {
 		final Kunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
-		
+		}
 		setStructuralLinks(kunde, uriInfo);
 		
 		return Response.ok(kunde)
                .links(getTransitionalLinks(kunde, uriInfo))
-               .build();
-		}
+               .build();	
 	}
+	
 	public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
 		// URI fuer Bestellungen setzen
 		final URI uri = getUriBestellungen(kunde, uriInfo);

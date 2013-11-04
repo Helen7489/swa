@@ -1,6 +1,4 @@
-//FIXME @XmlAccessorType(FIELD) (vlt auch komplett unnötig)
-//braucht package-info.java. (ka, ob aus bsp2)
-package de.shop.kundenverwaltung.domain;
+ package de.shop.kundenverwaltung.domain;
 import java.net.URI;
 import java.util.List;
 
@@ -8,13 +6,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.kundenverwaltung.domain.Adresse;
 
 @XmlRootElement
 public class Kunde {
 	private Long id;
 	private String nachname;
 	private String vorname;
-	//TODO Adresse sobald die Klasse angelegt ist
+	private Adresse adresse;
 	private String email;
 	
 @XmlTransient
@@ -115,6 +114,12 @@ public class Kunde {
 	public String toString() {
 		return "Kunde [id=" + id + ", nachname=" + nachname + ", vorname="
 				+ vorname + ", email=" + email + "]";
+	}
+	public Adresse getAdresse() {
+		return adresse;
+	}
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 	
