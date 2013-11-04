@@ -1,16 +1,20 @@
 package de.shop.artikelverwaltung.domain;
+import java.io.Serializable;
 
-public class Artikel {
+
+public class Artikel implements Serializable {
+	
 	private Long id;
 	private String bezeichnung;
 
 	// Konstruktor
-	
+	/*
 	public Artikel(Long id, String bezeichnung) {
 		super();
 		this.id = id;
 		this.bezeichnung = bezeichnung;
 	}
+	*/
 	
 	// Getter und Setter
 	
