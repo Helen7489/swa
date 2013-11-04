@@ -9,6 +9,7 @@ import java.util.Set;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.artikelverwaltung.domain.Artikel;
 
 
 /**
@@ -131,6 +132,13 @@ public final class Mock {
 
 	public static void deleteKunde(Long kundeId) {
 		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
+	}
+	
+	public static Artikel findArtikelById(Long id) {
+		final Artikel artikel = new Artikel();
+		artikel.setId(id);
+		artikel.setBezeichnung("Bezeichnung_" + id);
+		return artikel;
 	}
 	
 	private Mock() { /**/ } 

@@ -21,19 +21,18 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+//TODO Die NotFoundException selber schreiben
+//import de.shop.util.rest.NotFoundException;
+import javax.ws.rs.NotFoundException;
 
 import org.jboss.logging.Logger;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.interceptor.Log;
-import de.shop.util.rest.NotFoundException;
+
 import de.shop.util.rest.UriHelper;
 
-
-/**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
- */
 
 @Path("/artikel")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
@@ -42,7 +41,7 @@ import de.shop.util.rest.UriHelper;
 @Log
 public class ArtikelResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-	private static final String NOT_FOUND_ID = "artikel.notFound.id";
+//	private static final String NOT_FOUND_ID = "artikel.notFound.id";
 	
 	@Context
 	private UriInfo uriInfo;
@@ -68,7 +67,7 @@ public class ArtikelResource {
 	public Response findArtikelById(@PathParam("id") Long id) {
 		final Artikel artikel = as.findArtikelById(id);
 		if (artikel == null) {
-			throw new NotFoundException(NOT_FOUND_ID, id);
+			throw new NotFoundException("Kein Artikel mit der ID " + id + " gefunden.");
 		}
 
 		return Response.ok(artikel)
