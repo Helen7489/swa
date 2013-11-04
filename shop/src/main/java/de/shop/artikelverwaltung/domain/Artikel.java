@@ -1,20 +1,37 @@
 package de.shop.artikelverwaltung.domain;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 
+@XmlRootElement
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public class Artikel implements Serializable {
 	
+	private static final long serialVersionUID = 1430771599450877428L;
 	private Long id;
 	private String bezeichnung;
+	private BigDecimal preis;
 
 	// Konstruktor
-	/*
-	public Artikel(Long id, String bezeichnung) {
+
+	public Artikel() {
+		super();
+		this.id = null;
+		this.bezeichnung = null;
+		this.preis = null;
+	}
+	
+	public Artikel(Long id, String bezeichnung, BigDecimal preis) {
 		super();
 		this.id = id;
 		this.bezeichnung = bezeichnung;
-	}
-	*/
+		this.preis = preis.setScale(2);
+	}S
 	
 	// Getter und Setter
 	
@@ -34,6 +51,15 @@ public class Artikel implements Serializable {
 		this.bezeichnung = bezeichnung;
 	}
 	
+	
+	public BigDecimal getPreis() {
+		return preis;
+	}
+	
+	public void setPreis(BigDecimal preis) {
+		this.preis = preis.setScale(2);
+	}
+	
 	//hash Code
 	
 	@Override
@@ -43,6 +69,7 @@ public class Artikel implements Serializable {
 		result = prime * result
 				+ ((bezeichnung == null) ? 0 : bezeichnung.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((preis == null) ? 0 : preis.hashCode());
 		return result;
 	}
 	
@@ -67,6 +94,11 @@ public class Artikel implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (preis == null) {
+			if (other.preis != null)
+				return false;
+		} else if (!preis.equals(other.preis))
+			return false;
 		return true;
 	}
 	
@@ -74,7 +106,8 @@ public class Artikel implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Artikel [id=" + id + ", bezeichnung=" + bezeichnung + "]";
+		return "Artikel [id=" + id + ", bezeichnung=" + bezeichnung
+				+ ", preis=" + preis + "]";
 	}
 	
 

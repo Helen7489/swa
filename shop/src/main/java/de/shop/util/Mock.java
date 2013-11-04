@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.math.BigDecimal;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Adresse;
@@ -19,6 +20,7 @@ public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
 	private static final int MAX_BESTELLUNGEN = 4;
+	private static final int MAX_ARTIKEL = 5;
 
 	// TODO Methoden anpassen
 	
@@ -133,12 +135,57 @@ public final class Mock {
 	public static void deleteKunde(Long kundeId) {
 		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
 	}
+	// Artikel
 	
 	public static Artikel findArtikelById(Long id) {
+		if (id > MAX_ID) {
+			return null;
+		}
+		
 		final Artikel artikel = new Artikel();
 		artikel.setId(id);
-		artikel.setBezeichnung("Bezeichnung_" + id);
+		artikel.setBezeichnung("Bezeichnung" + id);
+		artikel.setPreis(new BigDecimal(id + "0.0"));
+		
 		return artikel;
+	}
+	
+	public static List<Artikel> findArtikelByBezeichnung(String bezeichnung) {
+		final int anzahl = bezeichnung.length();
+		final List<Artikel> artikelliste = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Artikel artikel = findArtikelById(Long.valueOf(i));
+			artikel.setBezeichnung(bezeichnung);
+			artikelliste.add(artikel);			
+		}
+		return artikelliste;
+	}
+
+	public static List<Artikel> findAllArtikel(){
+		final int anzahl = MAX_ARTIKEL;
+		final List<Artikel> artikelliste = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Artikel artikel = findArtikelById(Long.valueOf(i));
+			artikelliste.add(artikel);
+		}
+		return artikelliste;
+	}
+
+	public static Artikel createArtikel(Artikel artikel) {
+		//Nur neue ID zugewiesen
+		final String bezeichnung = artikel.getBezeichnung();
+		artikel.setId(Long.valueOf(bezeichnung.length()));
+		
+		System.out.println("Neuer Artikel: " + artikel);
+		return artikel;
+	}
+
+	public static void updateArtikel(Artikel artikel) {
+		System.out.println("Aktualisierter Artikel: " + artikel);
+	}
+
+	public static void deleteArtikel(Long id) {
+		System.out.println("Artikel mit ID=" + id + " geloescht");
 	}
 	
 	private Mock() { /**/ } 
