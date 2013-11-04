@@ -31,7 +31,7 @@ public class Artikel implements Serializable {
 		this.id = id;
 		this.bezeichnung = bezeichnung;
 		this.preis = preis.setScale(2);
-	}S
+	}
 	
 	// Getter und Setter
 	
