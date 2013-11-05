@@ -1,4 +1,5 @@
- package de.shop.kundenverwaltung.domain;
+package de.shop.kundenverwaltung.domain;
+
 import java.net.URI;
 import java.util.List;
 
@@ -15,44 +16,52 @@ public class Kunde {
 	private String vorname;
 	private Adresse adresse;
 	private String email;
-	
-@XmlTransient
+
+	@XmlTransient
 	private List<Bestellung> bestellungen;
+
 	private URI bestellungenUri;
-	//Konstruktor nicht nutzbar - Konflikte mit Mock
-	/*
-	public Kunde(Long id, String nachname, String vorname, String email) {
-		super();
-		this.id = id;
-		this.nachname = nachname;
-		this.vorname = vorname;
-		this.email = email;
-	}
-	*/
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNachname() {
 		return nachname;
 	}
+
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
+
 	public String getVorname() {
 		return vorname;
 	}
+
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public List<Bestellung> getBestellungen() {
 		return bestellungen;
 	}
@@ -60,6 +69,7 @@ public class Kunde {
 	public void setBestellungen(List<Bestellung> bestellungen) {
 		this.bestellungen = bestellungen;
 	}
+
 	public URI getBestellungenUri() {
 		return bestellungenUri;
 	}
@@ -74,11 +84,11 @@ public class Kunde {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((nachname == null) ? 0 : nachname.hashCode());
+		result = prime * result + ((nachname == null) ? 0 : nachname.hashCode());
 		result = prime * result + ((vorname == null) ? 0 : vorname.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -87,42 +97,37 @@ public class Kunde {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Kunde other = (Kunde) obj;
+		final Kunde other = (Kunde) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;
-		} else if (!email.equals(other.email))
+		}
+		else if (!email.equals(other.email))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		}
+		else if (!id.equals(other.id))
 			return false;
 		if (nachname == null) {
 			if (other.nachname != null)
 				return false;
-		} else if (!nachname.equals(other.nachname))
+		}
+		else if (!nachname.equals(other.nachname))
 			return false;
 		if (vorname == null) {
 			if (other.vorname != null)
 				return false;
-		} else if (!vorname.equals(other.vorname))
+		}
+		else if (!vorname.equals(other.vorname))
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "Kunde [id=" + id + ", nachname=" + nachname + ", vorname="
-				+ vorname + ", email=" + email + "]";
+		return "Kunde [id=" + id + ", nachname=" + nachname + ", vorname=" + vorname + ", email=" + email + "]";
 	}
-	public Adresse getAdresse() {
-		return adresse;
-	}
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
-
-	
-	
 
 }

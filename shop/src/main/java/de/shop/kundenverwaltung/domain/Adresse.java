@@ -7,35 +7,42 @@ public class Adresse {
 	private Long id;
 	private String plz;
 	private String ort;
-	
+
 	@XmlTransient
 	private Kunde kunde;
 
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getPlz() {
 		return plz;
 	}
+
 	public void setPlz(String plz) {
 		this.plz = plz;
 	}
+
 	public String getOrt() {
 		return ort;
 	}
+
 	public void setOrt(String ort) {
 		this.ort = ort;
 	}
-	
+
 	public Kunde getKunde() {
 		return kunde;
 	}
+
 	public void setKunde(Kunde kunde) {
 		this.kunde = kunde;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -45,6 +52,7 @@ public class Adresse {
 		result = prime * result + ((plz == null) ? 0 : plz.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -53,7 +61,7 @@ public class Adresse {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Adresse other = (Adresse) obj;
+		final Adresse other = (Adresse) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -74,7 +82,7 @@ public class Adresse {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Adresse [id=" + id + ", plz=" + plz + ", ort=" + ort + "]";
