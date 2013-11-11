@@ -63,9 +63,9 @@ public class KundeResource {
 	public Response findKundeById(@PathParam(KUNDEN_ID_PATH_PARAM) Long id) {
 
 		final Kunde kunde = KundeServiceMock.findKundeById(id);
-		if (kunde == null) {
+		/*if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
-		}
+		}*/
 		setStructuralLinks(kunde, uriInfo);
 
 		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo)).build();
