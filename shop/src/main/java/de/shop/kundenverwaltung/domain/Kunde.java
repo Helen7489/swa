@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.kundenverwaltung.domain.Adresse;
+//import de.shop.kundenverwaltung.domain.Adresse; //laut checkstyle unnoetig
 
 @XmlRootElement
 public class Kunde {

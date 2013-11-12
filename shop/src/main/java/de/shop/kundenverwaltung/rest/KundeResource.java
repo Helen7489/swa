@@ -53,7 +53,7 @@ public class KundeResource {
 
 	@GET
 	public Response findAllKunden() {
-		List<Kunde> kundenListe = KundeServiceMock.findAllKunden();
+		final List<Kunde> kundenListe = KundeServiceMock.findAllKunden();
 
 		return Response.ok(kundenListe).build();
 	}
