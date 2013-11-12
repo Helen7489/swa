@@ -22,7 +22,9 @@ public class BestellungServiceMock {
 		final Kunde kunde = KundeServiceMock.findKundeById(id + 1);
 
 		List<Bestellposition> liste = Arrays.asList(bp1, bp2);
-
+		
+// TODO ID für Bestellposition nicht gesetzt!
+		
 		final Bestellung bestellung = new Bestellung(kunde, liste);
 		bestellung.setId(id);
 		// bestellung.setAusgeliefert(false);
@@ -48,6 +50,7 @@ public class BestellungServiceMock {
 	// FIXME geht noch nicht
 	public static Bestellung createBestellung(Bestellung bestellung) {
 		final Long id = bestellung.getId();
+		System.out.print(id);
 		bestellung.setId(Long.valueOf(id));
 
 		final URI KundeUri = bestellung.getKundeUri();

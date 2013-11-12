@@ -109,6 +109,8 @@ public class ArtikelResource {
 				.build();
 	}
 
+	// TODO Methoden umbenennen getArtikelUri
+	
 	// Artikel erstellen
 	@POST
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
@@ -163,4 +165,6 @@ public class ArtikelResource {
 
 		return new Link[] {first, last };
 	}
+
+
 }

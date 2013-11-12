@@ -27,6 +27,10 @@ public class Bestellung implements Serializable {
 	@Transient
 	private URI kundeUri;
 
+	public Bestellung() {
+		super();
+	}
+	
 	public Bestellung(Kunde kunde, List<Bestellposition> bestellpositionen) {
 		super();
 		this.kunde = kunde;

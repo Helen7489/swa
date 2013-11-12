@@ -5,6 +5,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -21,6 +22,8 @@ import javax.ws.rs.core.UriInfo;
 
 import static de.shop.util.Constants.SELF_LINK;
 import de.shop.util.rest.UriHelper;
+import de.shop.artikelverwaltung.rest.ArtikelResource;
+import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.service.BestellungServiceMock;
 import de.shop.kundenverwaltung.domain.Kunde;
@@ -37,6 +40,9 @@ public class BestellungResource {
 
 	@Inject
 	private UriHelper uriHelper;
+	
+	@Inject
+	private ArtikelResource artikelResource;
 
 	@Inject
 	private KundeResource kundeResource;
@@ -50,13 +56,24 @@ public class BestellungResource {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
 		}
 
+		
 		setStructuralLinks(bestellung, uriInfo);
 
 		return Response.ok(bestellung).links(getTransitionalLinks(bestellung, uriInfo)).build();
 	}
 
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {
-
+		
+//TODO Liste mit Bestellpositionen anlegen mit Verweis auf Bestellpos. die rein kommt
+		
+		final List <Bestellposition> bestellposition = bestellung.getBestellpositionen();
+				if(bestellposition != null && !bestellposition.isEmpty()) {
+					for(Bestellposition bp : bestellposition) {
+						final URI artikelUri = artikelResource.getUriArtikel(bp.getArtikel(), uriInfo);
+						bp.setArtikelUri(artikelUri);
+						
+					}
+				}
 		// URI fuer Kunde setzen
 		final Kunde kunde = bestellung.getKunde();
 		if (kunde != null) {
@@ -95,6 +112,7 @@ public class BestellungResource {
 
 	@POST
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Produces
 	public Response createBestellung(Bestellung bestellung) {
 
 		bestellung = BestellungServiceMock.createBestellung(bestellung);
