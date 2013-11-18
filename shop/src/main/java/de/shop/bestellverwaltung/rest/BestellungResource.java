@@ -64,7 +64,7 @@ public class BestellungResource {
 
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {
 		
-//TODO Liste mit Bestellpositionen anlegen mit Verweis auf Bestellpos. die rein kommt
+// Liste mit Bestellpositionen angelegt mit Verweis auf Bestellpos. die rein kommt
 		
 		final List <Bestellposition> bestellposition = bestellung.getBestellpositionen();
 				if(bestellposition != null && !bestellposition.isEmpty()) {
