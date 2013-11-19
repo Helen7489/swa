@@ -37,6 +37,8 @@ public class Bestellung implements Serializable {
 		this.bestellpositionen = bestellpositionen;
 	}
 
+	// TODO  attribut ausgeliefert anlegen + in Mock übernehmen
+	
 	public Long getId() {
 		return id;
 	}

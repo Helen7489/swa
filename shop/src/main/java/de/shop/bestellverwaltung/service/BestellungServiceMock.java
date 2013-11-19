@@ -47,12 +47,14 @@ public class BestellungServiceMock {
 		return bestellungen;
 	}
 
-	// FIXME geht noch nicht
+	
 	public static Bestellung createBestellung(Bestellung bestellung) {
+		
 		final Long id = bestellung.getId();
-		System.out.print(id);
+		// System.out.print(id);
 		bestellung.setId(Long.valueOf(id));
 
+		
 		final URI KundeUri = bestellung.getKundeUri();
 		bestellung.setKundeUri(KundeUri);
 
