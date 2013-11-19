@@ -2,7 +2,6 @@ package de.shop.bestellverwaltung.service;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.shop.artikelverwaltung.service.ArtikelServiceMock;
@@ -14,22 +13,34 @@ import de.shop.kundenverwaltung.service.KundeServiceMock;
 public class BestellungServiceMock {
 
 	private static final int MAX_BESTELLUNGEN = 4;
+	private static final Long ARTIKEL_ID_1 = Long.valueOf(300);
+	private static final Long ARTIKEL_ID_2 = Long.valueOf(301);
 
 	public static Bestellung findBestellungById(Long id) {
 
-		Bestellposition bp1 = new Bestellposition(ArtikelServiceMock.findArtikelById((long) 10));
-		Bestellposition bp2 = new Bestellposition(ArtikelServiceMock.findArtikelById((long) 20));
+		
+		final Bestellposition bp1 = new Bestellposition(ArtikelServiceMock.findArtikelById(ARTIKEL_ID_1));
+		bp1.setId(id+1);
+		
+		
+		final Bestellposition bp2 = new Bestellposition(ArtikelServiceMock.findArtikelById(ARTIKEL_ID_2));
+		bp2.setId(id+2);
+		
 		final Kunde kunde = KundeServiceMock.findKundeById(id + 1);
-
-		List<Bestellposition> liste = Arrays.asList(bp1, bp2);
 		
-// TODO ID für Bestellposition nicht gesetzt!
 		
-		final Bestellung bestellung = new Bestellung(kunde, liste);
-		bestellung.setId(id);
-		// bestellung.setAusgeliefert(false);
+		final Bestellung bestellung = new Bestellung();
+		bestellung.addBestellposition(bp1);
+		bestellung.addBestellposition(bp2);
+		
+		// ArrayList wird übernommen von addBestellposition
+		
 		bestellung.setKunde(kunde);
-
+		
+		bestellung.setId(id);
+		
+		// bestellung.setAusgeliefert(false); --> keine Lieferungsklasse vorhanden
+		
 		return bestellung;
 	}
 
