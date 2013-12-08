@@ -3,6 +3,7 @@ package de.shop.artikelverwaltung.rest;
 import static de.shop.util.Constants.ADD_LINK;
 import static de.shop.util.Constants.FIRST_LINK;
 import static de.shop.util.Constants.LAST_LINK;
+// import static de.shop.util.Constants.REMOVE_LINK;
 import static de.shop.util.Constants.SELF_LINK;
 //import static de.shop.util.Constants.LIST_LINK;
 import static de.shop.util.Constants.UPDATE_LINK;
@@ -14,9 +15,12 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 import java.net.URI;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -31,16 +35,19 @@ import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelServiceMock;
-import de.shop.util.rest.NotFoundException;
 import de.shop.util.rest.UriHelper;
 
 @Path("/artikel")
 @Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
+@RequestScoped
 public class ArtikelResource {
 	public static final String ARTIKEL_ID_PATH_PARAM = "artikelId";
 	public static final String ARTIKEL_BEZEICHNUNG_QUERY_PARAM = "bezeichnung";
 
+	@Inject
+	private ArtikelServiceMock as;
+	
 	@Context
 	private UriInfo uriInfo;
 
@@ -60,6 +67,8 @@ public class ArtikelResource {
 	@Path("{" + ARTIKEL_ID_PATH_PARAM + ":[1-9][0-9]*}")
 	public Response findArtikelById(@PathParam(ARTIKEL_ID_PATH_PARAM) Long id) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
+		
+		/*
 		final Artikel artikel = ArtikelServiceMock.findArtikelById(id);
 		if (artikel == null) {
 			throw new NotFoundException("Der Artikel mit der ID:" + id + " konnte nicht gefunden werden.");
@@ -68,6 +77,12 @@ public class ArtikelResource {
 		// System.out.println(artikel.getId() + ", " + artikel.getBezeichnung()
 		// + ", " + artikel.getPreis());
 		return Response.ok(artikel).links(getTransitionalLinks(artikel, uriInfo)).build();
+*/
+		
+		final Artikel artikel = as.findArtikelById(id);
+		return Response.ok(artikel)
+                .links(getTransitionalLinks(artikel, uriInfo))
+                .build();
 	}
 
 	// Artikel mit Bezeichnung finden
@@ -75,38 +90,34 @@ public class ArtikelResource {
 	public Response findArtikelByBezeichnung(@QueryParam(ARTIKEL_BEZEICHNUNG_QUERY_PARAM) String bezeichnung) {
 		List<Artikel> artikelliste = null;
 		if (bezeichnung != null) {
-			System.out.println("RICHTIG");
-			// TODO Anwendungskern statt Mock, Verwendung von Locale
-			artikelliste = ArtikelServiceMock.findArtikelByBezeichnung(bezeichnung);
+			artikelliste = as.findArtikelByBezeichnung(bezeichnung);
 			if (artikelliste.isEmpty()) {
 				throw new NotFoundException("Kein Artikel mit Bezeichnung " + bezeichnung + " gefunden.");
 			}
 		}
 		else {
-			// TODO Anwendungskern statt Mock, Verwendung von Locale
-			artikelliste = ArtikelServiceMock.findAllArtikel();
+			artikelliste = as.findAllArtikel();
 			if (artikelliste.isEmpty()) {
 				throw new NotFoundException("Keine Artikel vorhanden.");
 			}
 		}
 
-		return Response.ok(new GenericEntity<List<Artikel>>(artikelliste) {
-		}).links(getTransitionalLinksArtikelListe(artikelliste, uriInfo)).build();
+		return Response.ok(new GenericEntity<List<Artikel>>(artikelliste) { })
+				.links(getTransitionalLinksArtikelListe(artikelliste, uriInfo))
+				.build();
 	}
 
 	// Alle Artikel auflisten
 	@GET
 	public Response findAllArtikel() {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
-		final List<Artikel> artikelliste = ArtikelServiceMock.findAllArtikel();
+		final List<Artikel> artikelliste = as.findAllArtikel();
 		if (artikelliste.isEmpty()) {
 			throw new NotFoundException("Es konnte keine Artikel gefunden werden.");
 		}
 
-		return Response.ok(new GenericEntity<List<Artikel>>(artikelliste) {
-		})
-		// .links(getTransitionalLinksArtikelListe(artikel_liste, uriInfo))
-				.build();
+		return Response.ok(new GenericEntity<List<Artikel>>(artikelliste) { })
+                       .links(getTransitionalLinksArtikelListe(artikelliste, uriInfo))
+                       .build();
 	}
 
 	// TODO Methoden umbenennen getArtikelUri
@@ -116,9 +127,9 @@ public class ArtikelResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createArtikel(Artikel artikel) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
-		artikel = ArtikelServiceMock.createArtikel(artikel);
-		return Response.created(getUriArtikel(artikel, uriInfo)).build();
+		artikel = as.createArtikel(artikel);
+		return Response.created(getUriArtikel(artikel, uriInfo))
+			           .build();
 	}
 
 	// Artikel aendern
@@ -126,10 +137,18 @@ public class ArtikelResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateArtikel(Artikel artikel) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
-		ArtikelServiceMock.updateArtikel(artikel);
+		as.updateArtikel(artikel);
 	}
 
+	
+	//Artikel loeschen bzw. als nicht mehr aktiv makieren
+	@DELETE
+	@Path("{id:[1-9][0-9]*}")
+	@Produces
+	public void deleteArtikel(@PathParam("id") Long artikelId) {
+		as.deleteArtikel(artikelId);
+	}
+	
 	// Artikel URI erzeugen
 	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
 		return uriHelper.getUri(ArtikelResource.class, "findArtikelById", artikel.getId(), uriInfo);
@@ -151,6 +170,8 @@ public class ArtikelResource {
 
 		final Link update = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo)).rel(UPDATE_LINK).build();
 
+//		final Link remove = Link.fromUri(uriHelper.getUri(ArtikelResource.class, "deleteArtikel", artikel.getId(), uriInfo)).rel(REMOVE_LINK).build();
+		
 		return new Link[] {self/* , list */, add, update };
 	}
 

@@ -1,60 +1,49 @@
 package de.shop.artikelverwaltung.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.Dependent;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import de.shop.artikelverwaltung.domain.Artikel;
-import de.shop.util.interceptor.Log;
+import de.shop.util.Mock;
 
-@Log
-public class ArtikelServiceMock {
+@Dependent
+public class ArtikelServiceMock implements Serializable{
 
-	private static final int MAX_ARTIKEL = 5;
+//	private static final int MAX_ARTIKEL = 5;
 
-	public static Artikel findArtikelById(Long id) {
-		final Artikel artikel = new Artikel();
-		artikel.setId(id);
-		artikel.setBezeichnung("Bezeichnung_" + id + "_Mock");
-		artikel.setPreis(new BigDecimal(id + "0.0"));
-		return artikel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4813113961399683792L;
+
+	@NotNull(message = "{artikel.notFound.id}")
+	public Artikel findArtikelById(Long id) {
+		return Mock.findArtikelById(id);
 	}
 
-	public static List<Artikel> findArtikelByBezeichnung(String bezeichnung) {
-		final int anzahl = bezeichnung.length();
-		final List<Artikel> artikelliste = new ArrayList<>(anzahl);
-		for (int i = 1; i <= anzahl; i++) {
-			final Artikel artikel = findArtikelById(Long.valueOf(i));
-			artikel.setBezeichnung(bezeichnung);
-			artikelliste.add(artikel);
-		}
-		return artikelliste;
+	@Size(min = 1, message = "{artikel.notFound.bezeichnung}")
+	public List<Artikel> findArtikelByBezeichnung(String bezeichnung) {
+		return Mock.findArtikelByBezeichnung(bezeichnung);
 	}
 
-	public static List<Artikel> findAllArtikel() {
-		final int anzahl = MAX_ARTIKEL;
-		final List<Artikel> artikelliste = new ArrayList<>(anzahl);
-		for (int i = 1; i <= anzahl; i++) {
-			final Artikel artikel = findArtikelById(Long.valueOf(i));
-			artikelliste.add(artikel);
-		}
-		return artikelliste;
+	@Size(min = 1, message = "{artikel.notFound.all}")
+	public List<Artikel> findAllArtikel() {
+		return Mock.findAllArtikel();
 	}
 
-	public static Artikel createArtikel(Artikel artikel) {
-		// Nur neue ID zugewiesen
-		final String bezeichnung = artikel.getBezeichnung();
-		artikel.setId(Long.valueOf(bezeichnung.length()));
-
-		System.out.println("Neuer Artikel: " + artikel);
-		return artikel;
+	public Artikel createArtikel(Artikel artikel) {
+		return Mock.createArtikel(artikel);
 	}
 
-	public static void updateArtikel(Artikel artikel) {
-		System.out.println("Aktualisierter Artikel: " + artikel);
+	public void updateArtikel(Artikel artikel) {
+		Mock.updateArtikel(artikel);
 	}
 
-	public static void deleteArtikel(Long id) {
-		System.out.println("Artikel mit ID=" + id + " geloescht");
+	public void deleteArtikel(Long id) {
+		Mock.deleteArtikel(id);
 	}
 }
