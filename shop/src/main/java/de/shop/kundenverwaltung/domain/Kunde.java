@@ -1,20 +1,51 @@
 package de.shop.kundenverwaltung.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
+
+import javax.validation.Valid;
+//import javax.validation.constraints.Max;
+//import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.validator.constraints.Email;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 //import de.shop.kundenverwaltung.domain.Adresse; //laut checkstyle unnoetig
 
 @XmlRootElement
-public class Kunde {
+public class Kunde implements Serializable{
+	
+	private static final long serialVersionUID = -7933833610685286194L;
+	
+	private static final String NAME_PATTERN = "[A-Z\u00C4\u00D6\u00DC][a-z\u00E4\u00F6\u00FC\u00DF]+";
+	private static final String NACHNAME_PREFIX = "(o'|von|von der|von und zu|van)?";
+	
+	public static final String NACHNAME_PATTERN = NACHNAME_PREFIX + NAME_PATTERN + "(-" + NAME_PATTERN + ")?";
+	private static final int NACHNAME_LENGTH_MIN = 2;
+	private static final int NACHNAME_LENGTH_MAX = 32;
+	
 	private Long id;
+	@NotNull(message = "{kunde.nachname.notNull}")
+	@Size(min = NACHNAME_LENGTH_MIN, max = NACHNAME_LENGTH_MAX,
+	      message = "{kunde.nachname.length}")
+	@Pattern(regexp = NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
 	private String nachname;
+	@Pattern(regexp = NAME_PATTERN, message = "{kunde.vorname.pattern}")
 	private String vorname;
+	@Valid
+	@NotNull(message = "{kunde.adresse.notNull}")
 	private Adresse adresse;
+	
+	@Email(message = "{kunde.email.pattern}")
+	@NotNull(message = "{kunde.email.notNull}")
+	@Size(max = 128, message = "{kunde.email.length}")
 	private String email;
 
 	@XmlTransient
