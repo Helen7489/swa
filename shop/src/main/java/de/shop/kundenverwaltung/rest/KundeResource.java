@@ -1,7 +1,10 @@
 package de.shop.kundenverwaltung.rest;
 
+import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.List;
+
+import org.jboss.logging.Logger;
 
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.interceptor.Log;
@@ -22,6 +25,7 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.FetchType;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.Consumes;
@@ -41,12 +45,17 @@ import javax.ws.rs.NotFoundException;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.google.common.base.Strings;
+
 @Path("/kunden")
 @Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.75" })
 @Consumes
 @RequestScoped
 @Log
 public class KundeResource {
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	private static final String VERSION = "1.0";
+	
 	public static final String KUNDEN_ID_PATH_PARAM = "kundeId";
 	public static final String KUNDEN_NACHNAME_QUERY_PARAM = "nachname";
 	public static final String KUNDEN_PLZ_QUERY_PARAM = "plz";
@@ -55,8 +64,8 @@ public class KundeResource {
 	@Context
 	private UriInfo uriInfo;
 	
-	//@Inject
-	//private KundeServiceMock ks;
+	@Inject
+	private KundeService ks;
 
 	@Inject
 	private BestellungResource bestellungResource;
@@ -68,25 +77,74 @@ public class KundeResource {
 	private UriHelper uriHelper;
 
 	@GET
-	@Produces({ TEXT_PLAIN, APPLICATION_JSON })
+	@Produces({ TEXT_PLAIN, APPLICATION_JSON + ";qs=0.75" })
 	@Path("version")
 	public String getVersion() {
-		return "1.0";
+		return VERSION;
 	}
 	
 	@GET
-	public Response findAllKunden	(@QueryParam(KUNDEN_NACHNAME_QUERY_PARAM)
-    								@Pattern(regexp = Kunde.NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
-    								String nachname,
-    								@QueryParam(KUNDEN_PLZ_QUERY_PARAM)
-    								@Pattern(regexp = "\\d{5}", message = "{adresse.plz}")
-    								String plz,
-    								@QueryParam(KUNDEN_EMAIL_QUERY_PARAM)
-    								@Email(message = "{kunde.email}")
-    								String email) {
-		final List<Kunde> kundenListe = KundeService.findAllKunden();
-
-		return Response.ok(kundenListe).build();
+	public Response findKunden(@QueryParam(KUNDEN_NACHNAME_QUERY_PARAM)
+                               @Pattern(regexp = Kunde.NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
+	                           String nachname,
+                               @QueryParam(KUNDEN_PLZ_QUERY_PARAM)
+                               @Pattern(regexp = "\\d{5}", message = "{adresse.plz}")
+                               String plz,
+                               @QueryParam(KUNDEN_EMAIL_QUERY_PARAM)
+                               @Email(message = "{kunde.email}")
+                               String email) {
+		List<? extends Kunde> kunden = null;
+		Kunde kunde = null;
+		// TODO Mehrere Query-Parameter koennen angegeben sein
+		if (!Strings.isNullOrEmpty(nachname)) {
+			kunden = ks.findKundenByNachname(nachname, FetchType.NUR_KUNDE);
+		}
+		else if (!Strings.isNullOrEmpty(plz)) {
+			kunden = ks.findKundenByPLZ(plz);
+		}
+		else if (!Strings.isNullOrEmpty(email)) {
+			kunde = ks.findKundeByEmail(email);
+		}
+		else {
+			kunden = ks.findAllKunden(FetchType.NUR_KUNDE, OrderType.ID);
+		}
+		
+		Object entity = null;
+		Link[] links = null;
+		if (kunden != null) {
+			for (Kunde k : kunden) {
+				setStructuralLinks(k, uriInfo);
+			}
+			// FIXME JDK 8 hat Lambda-Ausdruecke
+			//kunden.parallelStream()
+			//      .forEach(k -> setStructuralLinks(k, uriInfo));
+			entity = new GenericEntity<List<? extends Kunde>>(kunden){};
+			links = getTransitionalLinksKunden(kunden, uriInfo);
+		}
+		else if (kunde != null) {
+			entity = kunde;
+			links = getTransitionalLinks(kunde, uriInfo);
+		}
+		
+		return Response.ok(entity)
+		               .links(links)
+		               .build();
+	}
+	
+	private Link[] getTransitionalLinksKunden(List<? extends Kunde> kunden, UriInfo uriInfo) {
+		if (kunden == null || kunden.isEmpty()) {
+			return null;
+		}
+		
+		final Link first = Link.fromUri(getUriKunde(kunden.get(0), uriInfo))
+	                           .rel(FIRST_LINK)
+	                           .build();
+		final int lastPos = kunden.size() - 1;
+		final Link last = Link.fromUri(getUriKunde(kunden.get(lastPos), uriInfo))
+                              .rel(LAST_LINK)
+                              .build();
+		
+		return new Link[] { first, last };
 	}
 
 	@GET
@@ -171,11 +229,19 @@ public class KundeResource {
 	}
 
 	@PUT
-	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateKunde(@Valid Kunde kunde) {
-
-		KundeService.updateKunde(kunde);
+		// Vorhandenen Kunden ermitteln
+		final Kunde origKunde = ks.findKundeById(kunde.getId(), FetchType.NUR_KUNDE);
+		LOGGER.tracef("Kunde vorher: %s", origKunde);
+	
+		// Daten des vorhandenen Kunden ueberschreiben
+		origKunde.setValues(kunde);
+		LOGGER.tracef("Kunde nachher: %s", origKunde);
+		
+		// Update durchfuehren
+		ks.updateKunde(origKunde);
 	}
 
 }

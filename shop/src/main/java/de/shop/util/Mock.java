@@ -3,11 +3,14 @@ package de.shop.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-
 import java.util.Set;
 
+import org.jboss.logging.Logger;
+
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.artikelverwaltung.domain.Artikel;
 
@@ -18,6 +21,8 @@ import de.shop.artikelverwaltung.domain.Artikel;
  */
 
 public final class Mock {
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
 	private static final int MAX_BESTELLUNGEN = 4;
@@ -39,15 +44,15 @@ public final class Mock {
 		kunde.setNachname("Nachname" + id);
 		kunde.setVorname("Vorname" + id);
 		kunde.setEmail("" + id + "@hska.de");
-		//TODO Klasse Adresse
-		/*
+		
+		
 		final Adresse adresse = new Adresse();
 		adresse.setId(id + 1);        // andere ID fuer die Adresse
 		adresse.setPlz("12345");
 		adresse.setOrt("Testort");
 		adresse.setKunde(kunde);
 		kunde.setAdresse(adresse);
-		*/
+		
 		
 		//komplett unnötig für uns
 		
@@ -81,6 +86,30 @@ public final class Mock {
 			kunden.add(kunde);			
 		}
 		return kunden;
+	}
+	
+	public static Kunde findKundeByEmail(String email) {
+		if (email.startsWith("x")) {
+			return null;
+		}
+		final Kunde kunde = new Kunde();
+		kunde.setId(Long.valueOf(email.length()));
+		kunde.setNachname("Nachname");
+		kunde.setEmail(email);
+		//TODO
+//		final GregorianCalendar seitCal = new GregorianCalendar(JAHR, MONAT, TAG);
+//		final Date seit = seitCal.getTime();
+//		kunde.setSeit(seit);
+		
+		final Adresse adresse = new Adresse();
+		adresse.setId(kunde.getId() + 1);        // andere ID fuer die Adresse
+		adresse.setPlz("12345");
+		adresse.setOrt("Testort");
+		adresse.setKunde(kunde);
+		kunde.setAdresse(adresse);
+		
+
+		return kunde;
 	}
 /*	
 	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
@@ -119,23 +148,24 @@ public final class Mock {
 		// Ein neuer Kunde hat auch keine Bestellungen
 		final String nachname = kunde.getNachname();
 		kunde.setId(Long.valueOf(nachname.length()));
-		/*
+		
 		final Adresse adresse = kunde.getAdresse();
 		adresse.setId((Long.valueOf(nachname.length())) + 1);
 		adresse.setKunde(kunde);
-		*/
 		kunde.setBestellungen(null);
 		
-		System.out.println("Neuer Kunde: " + kunde);
+		//System.out.println("Neuer Kunde: " + kunde);
+		LOGGER.infof("Neuer Kunde: %s", kunde);
 		return kunde;
 	}
 
 	public static void updateKunde(Kunde kunde) {
+		LOGGER.infof("Aktualisierter Kunde: %s", kunde);
 		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
 
-	public static void deleteKunde(Long kundeId) {
-		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
+	public static void deleteKunde(Kunde kunde) {
+		LOGGER.infof("Gelöschter Kunde: %s", kunde);
 	}
 	
 	// Artikelteil
