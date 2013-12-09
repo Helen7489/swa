@@ -3,7 +3,7 @@ package de.shop.artikelverwaltung.rest;
 import static de.shop.util.Constants.ADD_LINK;
 import static de.shop.util.Constants.FIRST_LINK;
 import static de.shop.util.Constants.LAST_LINK;
-// import static de.shop.util.Constants.REMOVE_LINK;
+import static de.shop.util.Constants.REMOVE_LINK;
 import static de.shop.util.Constants.SELF_LINK;
 //import static de.shop.util.Constants.LIST_LINK;
 import static de.shop.util.Constants.UPDATE_LINK;
@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -35,12 +36,14 @@ import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelServiceMock;
+import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 
 @Path("/artikel")
 @Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
 @RequestScoped
+@Log
 public class ArtikelResource {
 	public static final String ARTIKEL_ID_PATH_PARAM = "artikelId";
 	public static final String ARTIKEL_BEZEICHNUNG_QUERY_PARAM = "bezeichnung";
@@ -126,7 +129,7 @@ public class ArtikelResource {
 	@POST
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createArtikel(Artikel artikel) {
+	public Response createArtikel(@Valid Artikel artikel) {
 		artikel = as.createArtikel(artikel);
 		return Response.created(getUriArtikel(artikel, uriInfo))
 			           .build();
@@ -136,7 +139,7 @@ public class ArtikelResource {
 	@PUT
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public void updateArtikel(Artikel artikel) {
+	public void updateArtikel(@Valid Artikel artikel) {
 		as.updateArtikel(artikel);
 	}
 
@@ -170,9 +173,9 @@ public class ArtikelResource {
 
 		final Link update = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo)).rel(UPDATE_LINK).build();
 
-//		final Link remove = Link.fromUri(uriHelper.getUri(ArtikelResource.class, "deleteArtikel", artikel.getId(), uriInfo)).rel(REMOVE_LINK).build();
+		final Link remove = Link.fromUri(uriHelper.getUri(ArtikelResource.class, "deleteArtikel", artikel.getId(), uriInfo)).rel(REMOVE_LINK).build();
 		
-		return new Link[] {self/* , list */, add, update };
+		return new Link[] {self/* , list */, add, update, remove };
 	}
 
 	public Link[] getTransitionalLinksArtikelListe(List<Artikel> artikelliste, UriInfo uriInfo) {
@@ -186,6 +189,4 @@ public class ArtikelResource {
 
 		return new Link[] {first, last };
 	}
-
-
 }
