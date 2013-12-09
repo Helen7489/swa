@@ -6,7 +6,7 @@ import java.util.List;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 
-public class KundeServiceMock {
+public class KundeService {
 
 	private static final int MAX_KUNDEN = 8;
 

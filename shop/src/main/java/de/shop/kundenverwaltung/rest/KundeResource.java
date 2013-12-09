@@ -9,7 +9,7 @@ import de.shop.util.rest.UriHelper;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
 import de.shop.bestellverwaltung.service.BestellungServiceMock;
-import de.shop.kundenverwaltung.service.KundeServiceMock;
+import de.shop.kundenverwaltung.service.KundeService;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static de.shop.util.Constants.ADD_LINK;
 import static de.shop.util.Constants.FIRST_LINK;
@@ -84,7 +84,7 @@ public class KundeResource {
     								@QueryParam(KUNDEN_EMAIL_QUERY_PARAM)
     								@Email(message = "{kunde.email}")
     								String email) {
-		final List<Kunde> kundenListe = KundeServiceMock.findAllKunden();
+		final List<Kunde> kundenListe = KundeService.findAllKunden();
 
 		return Response.ok(kundenListe).build();
 	}
@@ -93,7 +93,7 @@ public class KundeResource {
 	@Path("{" + KUNDEN_ID_PATH_PARAM + ":[1-9][0-9]*}")
 	public Response findKundeById(@PathParam(KUNDEN_ID_PATH_PARAM) Long id) {
 
-		final Kunde kunde = KundeServiceMock.findKundeById(id);
+		final Kunde kunde = KundeService.findKundeById(id);
 		/*if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
 		}*/
@@ -130,7 +130,7 @@ public class KundeResource {
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
-		final Kunde kunde = KundeServiceMock.findKundeById(kundeId);
+		final Kunde kunde = KundeService.findKundeById(kundeId);
 		final List<Bestellung> bestellungen = BestellungServiceMock.findBestellungenByKunde(kunde);
 		if (bestellungen.isEmpty()) {
 			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
@@ -166,7 +166,7 @@ public class KundeResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createKunde(@Valid Kunde kunde) {
-		kunde = KundeServiceMock.createKunde(kunde);
+		kunde = KundeService.createKunde(kunde);
 		return Response.created(getUriKunde(kunde, uriInfo)).build();
 	}
 
@@ -175,7 +175,7 @@ public class KundeResource {
 	@Produces
 	public void updateKunde(@Valid Kunde kunde) {
 
-		KundeServiceMock.updateKunde(kunde);
+		KundeService.updateKunde(kunde);
 	}
 
 }
