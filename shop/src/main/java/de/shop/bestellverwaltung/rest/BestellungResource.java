@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import static de.shop.util.Constants.SELF_LINK;
+import de.shop.util.Mock;
 import de.shop.util.rest.UriHelper;
 import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellposition;
@@ -28,7 +29,6 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
-import de.shop.kundenverwaltung.service.KundeService;
 
 @Path("/bestellungen")
 @Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
@@ -44,6 +44,7 @@ public class BestellungResource {
 	@Inject
 	private ArtikelResource artikelResource;
 
+	
 	@Inject
 	private KundeResource kundeResource;
 
@@ -99,7 +100,7 @@ public class BestellungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/kunde")
 	public Response findKundeByBestellungId(@PathParam("id") Long id) {
-		final Kunde kunde = KundeService.findKundeById(id);
+		final Kunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Bestellung mit der ID: " + id + " gefunden");
 		}

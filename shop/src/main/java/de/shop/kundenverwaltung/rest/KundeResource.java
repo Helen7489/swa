@@ -110,7 +110,7 @@ public class KundeResource {
 		return uriHelper.getUri(KundeResource.class, "findBestellungenByKundeId", kunde.getId(), uriInfo);
 	}
 	
-	private Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
+	public Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
 	                          .rel(SELF_LINK)
 	                          .build();

@@ -15,7 +15,7 @@ public class Bestellposition {
 	private short anzahl;
 	
 	@XmlTransient
-	private List<Artikel> artikel;
+	private Artikel artikel;
 
 	@Transient
 	private URI artikelUri;

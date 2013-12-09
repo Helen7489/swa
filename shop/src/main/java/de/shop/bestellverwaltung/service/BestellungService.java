@@ -8,7 +8,6 @@ import java.util.List;
 import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
-import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.Mock;
 
 public class BestellungService {
@@ -27,7 +26,7 @@ public static Bestellung findBestellungById(Long id) {
 		final Bestellposition bp2 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_2));
 		bp2.setId(id+2);
 	
-		final Kunde kunde = KundeService.findKundeById(id + 1);
+		final Kunde kunde = Mock.findKundeById(id + 1);
 		
 		
 		final Bestellung bestellung = new Bestellung();
