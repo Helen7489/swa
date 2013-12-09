@@ -7,7 +7,6 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.Mock;
 
@@ -16,36 +15,21 @@ public class KundeService implements Serializable{
 	private static final long serialVersionUID = -7931952361984885554L;
 
 	@NotNull(message = "{kunde.notFound.id}")
-	public static Kunde findKundeById(Long id) {
+	public Kunde findKundeById(Long id) {
 		
 		if (id == null) {
 			return null;
 		}
 		// TODO Datenbanzugriffsschicht statt Mock
 		return Mock.findKundeById(id);
-		/*
-		final Kunde kunde = new Kunde();
-		kunde.setId(id);
-		kunde.setNachname("Nachname" + id);
-		kunde.setVorname("Vorname" + id);
-		kunde.setEmail("" + id + "@hska.de");
-
-		final Adresse adresse = new Adresse();
-		adresse.setId(id + 1);
-		adresse.setPlz("12345");
-		adresse.setOrt("Testort");
-		adresse.setKunde(kunde);
-		kunde.setAdresse(adresse);
-
-		return kunde;*/
 	}
 
-	public static List<Kunde> findAllKunden() {
+	public List<Kunde> findAllKunden() {
 		return Mock.findAllKunden();
 	}
 	
 	@NotNull(message = "{kunde.notFound.email}")
-	public static Kunde findKundeByEmail(String email) {
+	public Kunde findKundeByEmail(String email) {
 		if (email == null) {
 			return null;
 		}
@@ -59,16 +43,16 @@ public class KundeService implements Serializable{
 		return Mock.findKundenByNachname(nachname);
 	}
 
-	public static Kunde createKunde(Kunde kunde) {
+	public Kunde createKunde(Kunde kunde) {
 
 		if (kunde == null) {
 			return kunde;
 		}
-
-		final Kunde tmp = findKundeByEmail(kunde.getEmail());  // Kein Aufruf als Business-Methode
+		//TODO haut einem beim Post immer eine Exception raus
+/*		final Kunde tmp = findKundeByEmail(kunde.getEmail());  // Kein Aufruf als Business-Methode
 		if (tmp != null) {
 			throw new EmailExistsException(kunde.getEmail());
-		}
+		}*/
 		// TODO Datenbanzugriffsschicht statt Mock
 		kunde = Mock.createKunde(kunde);
 		return kunde;
