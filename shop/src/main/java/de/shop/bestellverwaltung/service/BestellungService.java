@@ -4,13 +4,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.shop.artikelverwaltung.service.ArtikelServiceMock;
+
 import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
-import de.shop.kundenverwaltung.service.KundeServiceMock;
+import de.shop.kundenverwaltung.service.KundeService;
+import de.shop.util.Mock;
 
-public class BestellungServiceMock {
+public class BestellungService {
 
 	private static final int MAX_BESTELLUNGEN = 4;
 	private static final Long ARTIKEL_ID_1 = Long.valueOf(300);
@@ -19,14 +20,14 @@ public class BestellungServiceMock {
 public static Bestellung findBestellungById(Long id) {
 
 	
-		final Bestellposition bp1 = new Bestellposition(ArtikelServiceMock.findArtikelById(ARTIKEL_ID_1));
+		final Bestellposition bp1 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_1));
 		bp1.setId(id+1);
 		
 		
-		final Bestellposition bp2 = new Bestellposition(ArtikelServiceMock.findArtikelById(ARTIKEL_ID_2));
+		final Bestellposition bp2 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_2));
 		bp2.setId(id+2);
 	
-		final Kunde kunde = KundeServiceMock.findKundeById(id + 1);
+		final Kunde kunde = KundeService.findKundeById(id + 1);
 		
 		
 		final Bestellung bestellung = new Bestellung();

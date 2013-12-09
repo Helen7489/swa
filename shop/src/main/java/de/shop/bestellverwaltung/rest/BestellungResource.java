@@ -25,10 +25,10 @@ import de.shop.util.rest.UriHelper;
 import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.bestellverwaltung.service.BestellungServiceMock;
+import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
-import de.shop.kundenverwaltung.service.KundeServiceMock;
+import de.shop.kundenverwaltung.service.KundeService;
 
 @Path("/bestellungen")
 @Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
@@ -51,7 +51,7 @@ public class BestellungResource {
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
 
-		final Bestellung bestellung = BestellungServiceMock.findBestellungById(id);
+		final Bestellung bestellung = BestellungService.findBestellungById(id);
 		if (bestellung == null) {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
 		}
@@ -99,7 +99,7 @@ public class BestellungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/kunde")
 	public Response findKundeByBestellungId(@PathParam("id") Long id) {
-		final Kunde kunde = KundeServiceMock.findKundeById(id);
+		final Kunde kunde = KundeService.findKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Bestellung mit der ID: " + id + " gefunden");
 		}
@@ -115,7 +115,7 @@ public class BestellungResource {
 	@Produces
 	public Response createBestellung(Bestellung bestellung) {
 
-		bestellung = BestellungServiceMock.createBestellung(bestellung);
+		bestellung = BestellungService.createBestellung(bestellung);
 
 		return Response.created(getUriKunde(bestellung.getKunde(), uriInfo)).build();
 	}

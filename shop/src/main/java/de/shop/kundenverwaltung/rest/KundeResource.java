@@ -11,7 +11,7 @@ import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
-import de.shop.bestellverwaltung.service.BestellungServiceMock;
+import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.service.KundeService;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static de.shop.util.Constants.ADD_LINK;
@@ -189,7 +189,7 @@ public class KundeResource {
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		final Kunde kunde = KundeService.findKundeById(kundeId);
-		final List<Bestellung> bestellungen = BestellungServiceMock.findBestellungenByKunde(kunde);
+		final List<Bestellung> bestellungen = BestellungService.findBestellungenByKunde(kunde);
 		if (bestellungen.isEmpty()) {
 			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
 		}

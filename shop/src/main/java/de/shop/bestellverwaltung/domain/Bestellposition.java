@@ -1,6 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
@@ -12,9 +13,9 @@ public class Bestellposition {
 	private Long id;
 
 	private short anzahl;
-
+	
 	@XmlTransient
-	private Artikel artikel;
+	private List<Artikel> artikel;
 
 	@Transient
 	private URI artikelUri;

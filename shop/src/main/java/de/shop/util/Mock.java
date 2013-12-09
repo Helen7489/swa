@@ -1,15 +1,12 @@
 package de.shop.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-import java.util.Set;
 
 import org.jboss.logging.Logger;
 
-import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.artikelverwaltung.domain.Artikel;
