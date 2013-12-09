@@ -77,16 +77,16 @@ public class KundeService implements Serializable{
 	}
 
 	public void deleteKunde(Long kundeId) {
-		Kunde kunde = findKundeById(kundeId); 
+		/*Kunde kunde = findKundeById(kundeId); 
 		if (kunde == null) {
 			return;
 		}
 		if (!kunde.getBestellungen().isEmpty()) {
 			throw new KundeDeleteBestellungException(kunde);
 		}
-		
+		*/
 		// TODO Datenbanzugriffsschicht statt Mock
-		Mock.deleteKunde(kunde);
+		Mock.deleteKunde(kundeId);
 	}
 
 }

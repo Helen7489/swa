@@ -161,8 +161,9 @@ public final class Mock {
 		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
 
-	public static void deleteKunde(Kunde kunde) {
-		LOGGER.infof("Gelöschter Kunde: %s", kunde);
+	public static void deleteKunde(Long id) {
+		LOGGER.infof("Gelöschter Kunde: %s", id);
+		System.out.println("Kunde mit ID=" + id + " geloescht");
 	}
 	
 	// Artikelteil
