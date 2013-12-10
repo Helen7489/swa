@@ -32,20 +32,20 @@ public class Kunde implements Serializable{
 	private static final int NACHNAME_LENGTH_MAX = 32;
 	
 	private Long id;
-	@NotNull(message = "{kunde.nachname.notNull}")
+	@NotNull(message = "{kundenverwaltung.kunde.nachname.notNull}")
 	@Size(min = NACHNAME_LENGTH_MIN, max = NACHNAME_LENGTH_MAX,
-	      message = "{kunde.nachname.length}")
-	@Pattern(regexp = NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
+	      message = "{kundenverwaltung.kunde.nachname.length}")
+	@Pattern(regexp = NACHNAME_PATTERN, message = "{kundenverwaltung.kunde.nachname.pattern}")
 	private String nachname;
-	@Pattern(regexp = NAME_PATTERN, message = "{kunde.vorname.pattern}")
+	@Pattern(regexp = NAME_PATTERN, message = "{kundenverwaltung.kunde.vorname.pattern}")
 	private String vorname;
 	@Valid
-	@NotNull(message = "{kunde.adresse.notNull}")
+	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse;
 	
-	@Email(message = "{kunde.email.pattern}")
-	@NotNull(message = "{kunde.email.notNull}")
-	@Size(max = 128, message = "{kunde.email.length}")
+	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
+	@NotNull(message = "{kundenverwaltung.kunde.email.notNull}")
+	@Size(max = 128, message = "{kundenverwaltung.kunde.email.length}")
 	private String email;
 
 	@XmlTransient

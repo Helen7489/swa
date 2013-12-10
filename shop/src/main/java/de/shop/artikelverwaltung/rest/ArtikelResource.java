@@ -34,6 +34,8 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+
+
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelServiceMock;
 import de.shop.util.interceptor.Log;
@@ -48,6 +50,7 @@ public class ArtikelResource {
 	public static final String ARTIKEL_ID_PATH_PARAM = "artikelId";
 	public static final String ARTIKEL_BEZEICHNUNG_QUERY_PARAM = "bezeichnung";
 
+	
 	@Inject
 	private ArtikelServiceMock as;
 	
@@ -57,6 +60,8 @@ public class ArtikelResource {
 	@Inject
 	private UriHelper uriHelper;
 
+
+	
 	// Aktuelle Version ausgeben
 	@GET
 	@Produces({TEXT_PLAIN, APPLICATION_JSON })
