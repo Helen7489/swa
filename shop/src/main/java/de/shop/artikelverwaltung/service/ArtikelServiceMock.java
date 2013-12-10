@@ -13,7 +13,7 @@ import de.shop.util.interceptor.Log;
 
 @Dependent
 @Log
-public class ArtikelServiceMock implements Serializable{
+public class ArtikelServiceMock implements Serializable {
 
 //	private static final int MAX_ARTIKEL = 5;
 

@@ -178,7 +178,8 @@ public class ArtikelResource {
 
 		final Link update = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo)).rel(UPDATE_LINK).build();
 
-		final Link remove = Link.fromUri(uriHelper.getUri(ArtikelResource.class, "deleteArtikel", artikel.getId(), uriInfo)).rel(REMOVE_LINK).build();
+		final Link remove = Link.fromUri(uriHelper.getUri(ArtikelResource.class, "deleteArtikel",
+				artikel.getId(), uriInfo)).rel(REMOVE_LINK).build();
 		
 		return new Link[] {self/* , list */, add, update, remove };
 	}

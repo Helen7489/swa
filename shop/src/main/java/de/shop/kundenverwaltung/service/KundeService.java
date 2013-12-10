@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.Mock;
 
-public class KundeService implements Serializable{
+public class KundeService implements Serializable {
 
 	private static final long serialVersionUID = -7931952361984885554L;
 

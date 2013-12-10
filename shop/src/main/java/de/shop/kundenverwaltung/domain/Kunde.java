@@ -20,7 +20,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 //import de.shop.kundenverwaltung.domain.Adresse; //laut checkstyle unnoetig
 
 @XmlRootElement
-public class Kunde implements Serializable{
+public class Kunde implements Serializable {
 	
 	private static final long serialVersionUID = -7933833610685286194L;
 	

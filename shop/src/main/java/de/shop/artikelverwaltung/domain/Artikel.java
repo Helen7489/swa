@@ -20,11 +20,11 @@ public class Artikel implements Serializable {
 	
 	
 	private Long id;
-	@NotNull(message="{artikelverwaltung.artikel.bezeichnung.notnull}")
-	@Size(max = 100, message="{artikelverwaltung.artikel.bezeichnung.length}")
-	@Pattern(regexp = "[A-ZÄÖÜ][a-z0-9äöüß_-]+", message="{artikelverwaltung.artikel.bezeichnung.pattern}")
+	@NotNull(message = "{artikelverwaltung.artikel.bezeichnung.notnull}")
+	@Size(max = 100, message = "{artikelverwaltung.artikel.bezeichnung.length}")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-z0-9äöüß_-]+", message = "{artikelverwaltung.artikel.bezeichnung.pattern}")
 	private String bezeichnung;
-	@NotNull(message="{artikelverwaltung.artikel.preis.notnull}")
+	@NotNull(message = "{artikelverwaltung.artikel.preis.notnull}")
 	@Digits(integer = 10, fraction = 2, message = "{artikelverwaltung.artikel.preis.digits}")
 	private BigDecimal preis;
 	

@@ -192,7 +192,7 @@ public final class Mock {
 		return artikelliste;
 	}
 
-	public static List<Artikel> findAllArtikel(){
+	public static List<Artikel> findAllArtikel() {
 		final int anzahl = MAX_ARTIKEL;
 		final List<Artikel> artikelliste = new ArrayList<>(anzahl);
 		for (int i = 0; i <= anzahl; i++) {

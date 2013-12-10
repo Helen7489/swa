@@ -1,7 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 import java.net.URI;
-import java.util.List;
+//import java.util.List;
 
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;

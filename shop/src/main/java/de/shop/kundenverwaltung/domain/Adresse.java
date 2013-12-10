@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
-public class Adresse implements Serializable{
+public class Adresse implements Serializable {
 
 	private static final long serialVersionUID = -4337124646586045709L;
 	private Long id;

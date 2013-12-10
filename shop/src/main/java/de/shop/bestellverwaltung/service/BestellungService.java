@@ -20,11 +20,11 @@ public static Bestellung findBestellungById(Long id) {
 
 	
 		final Bestellposition bp1 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_1));
-		bp1.setId(id+1);
+		bp1.setId(id + 1);
 		
 		
 		final Bestellposition bp2 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_2));
-		bp2.setId(id+2);
+		bp2.setId(id + 2);
 	
 		final Kunde kunde = Mock.findKundeById(id + 1);
 		

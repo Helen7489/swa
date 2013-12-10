@@ -53,9 +53,9 @@ public class BestellungResource {
 	public Response findBestellungById(@PathParam("id") Long id) {
 
 		final Bestellung bestellung = BestellungService.findBestellungById(id);
-		if (bestellung == null) {
-			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
-		}
+//		if (bestellung == null) {
+//			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
+//		}
 
 		
 		setStructuralLinks(bestellung, uriInfo);
@@ -67,9 +67,9 @@ public class BestellungResource {
 		
 // Liste mit Bestellpositionen angelegt mit Verweis auf Bestellpos. die rein kommt
 		
-		final List <Bestellposition> bestellposition = bestellung.getBestellpositionen();
-				if(bestellposition != null && !bestellposition.isEmpty()) {
-					for(Bestellposition bp : bestellposition) {
+		final List<Bestellposition> bestellposition = bestellung.getBestellpositionen();
+				if (bestellposition != null && !bestellposition.isEmpty()) {
+					for (Bestellposition bp : bestellposition) {
 						final URI artikelUri = artikelResource.getUriArtikel(bp.getArtikel(), uriInfo);
 						bp.setArtikelUri(artikelUri);
 						
