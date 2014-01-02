@@ -22,17 +22,17 @@ public class ArtikelServiceMock implements Serializable {
 	 */
 	private static final long serialVersionUID = -4813113961399683792L;
 
-	@NotNull(message = "{artikel.notFound.id}")
+	@NotNull(message = "{artikelverwaltung.artikel.notFound.id}")
 	public Artikel findArtikelById(Long id) {
 		return Mock.findArtikelById(id);
 	}
 
-	@Size(min = 1, message = "{artikel.notFound.bezeichnung}")
+	@Size(min = 1, message = "{artikelverwaltung.artikel.notFound.bezeichnung}")
 	public List<Artikel> findArtikelByBezeichnung(String bezeichnung) {
 		return Mock.findArtikelByBezeichnung(bezeichnung);
 	}
 
-	@Size(min = 1, message = "{artikel.notFound.all}")
+	@Size(min = 1, message = "{artikelverwaltung.artikel.notFound.all}")
 	public List<Artikel> findAllArtikel() {
 		return Mock.findAllArtikel();
 	}
