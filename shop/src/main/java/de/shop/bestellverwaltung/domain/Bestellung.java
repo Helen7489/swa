@@ -10,15 +10,23 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import de.shop.kundenverwaltung.domain.Kunde;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
 
 	private static final long serialVersionUID = -4802402419256415365L;
-
+	
 	private Long id;
-
+	
+	public Long getId() {
+		return id;
+	}
+	
+	@NotEmpty(message="{bestellverwaltung.bestellung.bestellpositionen.notEmpty}")
+	
 	private List<Bestellposition> bestellpositionen;
 
 	@XmlTransient
@@ -31,20 +39,18 @@ public class Bestellung implements Serializable {
 		super();
 	}
 	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	//Liste von Bestellungen
 	public Bestellung(Kunde kunde, List<Bestellposition> bestellpositionen) {
 		super();
 		this.kunde = kunde;
 		this.bestellpositionen = bestellpositionen;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	//Liste Bestellpositionen
 	public List<Bestellposition> getBestellpositionen() {
 		if (bestellpositionen == null) {
 			return null;
@@ -72,6 +78,7 @@ public class Bestellung implements Serializable {
 		return this;
 	}
 
+	//Attribute
 	public Kunde getKunde() {
 		return kunde;
 	}

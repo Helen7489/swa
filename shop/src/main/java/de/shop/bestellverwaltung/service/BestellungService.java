@@ -10,24 +10,25 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.Mock;
 
+// Logger eintragen
+
 public class BestellungService {
 
-	private static final int MAX_BESTELLUNGEN = 4;
-	private static final Long ARTIKEL_ID_1 = Long.valueOf(300);
-	private static final Long ARTIKEL_ID_2 = Long.valueOf(301);
+	private   final int MAX_BESTELLUNGEN = 4;
+	private   final Long ARTIKEL_ID_1 = Long.valueOf(20);
+	private   final Long ARTIKEL_ID_2 = Long.valueOf(30);
 
-public static Bestellung findBestellungById(Long id) {
+public Bestellung findBestellungById(Long id) {
 
-	
+		// IDs setzen
 		final Bestellposition bp1 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_1));
+
 		bp1.setId(id + 1);
-		
 		
 		final Bestellposition bp2 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_2));
 		bp2.setId(id + 2);
 	
 		final Kunde kunde = Mock.findKundeById(id + 1);
-		
 		
 		final Bestellung bestellung = new Bestellung();
 		bestellung.addBestellposition(bp1);
@@ -44,7 +45,7 @@ public static Bestellung findBestellungById(Long id) {
 		return bestellung;
 	}
 
-	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
+	public List<Bestellung> findBestellungenByKunde(Kunde kunde) {
 		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
 		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;
 		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
@@ -59,7 +60,7 @@ public static Bestellung findBestellungById(Long id) {
 	}
 
 	
-	public static Bestellung createBestellung(Bestellung bestellung) {
+	public Bestellung createBestellung(Bestellung bestellung) {
 		
 		final Long id = bestellung.getId();
 		// System.out.print(id);

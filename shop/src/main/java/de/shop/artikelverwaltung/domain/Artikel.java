@@ -17,8 +17,6 @@ public class Artikel implements Serializable {
 
 	private static final long serialVersionUID = 1430771599450877428L;
 	
-	
-	
 	private Long id;
 	@NotNull(message = "{artikelverwaltung.artikel.bezeichnung.notnull}")
 	@Size(max = 100, message = "{artikelverwaltung.artikel.bezeichnung.length}")
