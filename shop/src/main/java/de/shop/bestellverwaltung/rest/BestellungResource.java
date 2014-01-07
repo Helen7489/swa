@@ -43,7 +43,9 @@ public class BestellungResource {
 	
 	@Inject
 	private ArtikelResource artikelResource;
-
+	
+	@Inject
+	private BestellungService bs;
 	
 	@Inject
 	private KundeResource kundeResource;
@@ -52,11 +54,10 @@ public class BestellungResource {
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
 
-		final Bestellung bestellung = BestellungService.findBestellungById(id);
+		final Bestellung bestellung = bs.findBestellungById(id);
 		if (bestellung == null) {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
 		}
-
 		
 		setStructuralLinks(bestellung, uriInfo);
 
@@ -67,14 +68,14 @@ public class BestellungResource {
 		
 // Liste mit Bestellpositionen angelegt mit Verweis auf Bestellpos. die rein kommt
 		
-		final List <Bestellposition> bestellposition = bestellung.getBestellpositionen();
+		final List<Bestellposition> bestellposition = bestellung.getBestellpositionen();
 				if(bestellposition != null && !bestellposition.isEmpty()) {
 					for(Bestellposition bp : bestellposition) {
 						final URI artikelUri = artikelResource.getUriArtikel(bp.getArtikel(), uriInfo);
-						bp.setArtikelUri(artikelUri);
-						
+						bp.setArtikelUri(artikelUri);					
 					}
 				}
+				
 		// URI fuer Kunde setzen
 		final Kunde kunde = bestellung.getKunde();
 		if (kunde != null) {
@@ -116,7 +117,7 @@ public class BestellungResource {
 	@Produces
 	public Response createBestellung(Bestellung bestellung) {
 
-		bestellung = BestellungService.createBestellung(bestellung);
+		bestellung = bs.createBestellung(bestellung);
 
 		return Response.created(getUriKunde(bestellung.getKunde(), uriInfo)).build();
 	}

@@ -30,7 +30,6 @@ public final class Mock {
 	
 	// TODO Methoden anpassen
 	
-	
 	public static Kunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
@@ -108,6 +107,8 @@ public final class Mock {
 
 		return kunde;
 	}
+	
+	//MEthoden aus Service raus in Mock rein
 /*	
 	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
 		
