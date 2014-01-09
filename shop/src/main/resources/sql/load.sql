@@ -6,12 +6,12 @@
 --
 -- kunde
 --
-INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (1,'Admin','Admin','01.01.2001','F',NULL,NULL,1,NULL,NULL,'admin@hs-karlsruhe.de','1','01.08.2006 00:00:00','01.08.2006 00:00:00');
+INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (1,'Admin','Admin','01.01.2001','F',NULL,NULL,1,'0,1',0,'admin@hs-karlsruhe.de','1','01.08.2006 00:00:00','01.08.2006 00:00:00');
 INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (101,'Alpha','Adriana','31.01.2001','P','VH','W',1,'0,1','1500,5','101@hs-karlsruhe.de','101','01.08.2006 00:00:00','01.08.2006 00:00:00');
-INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (102,'Alpha','Alfred','28.02.2002','P','L','M',1,NULL,'500,5','102@hs-karlsruhe.de','102','02.08.2006 00:00:00','02.08.2006 00:00:00');
+INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (102,'Alpha','Alfred','28.02.2002','P','L','M',1,0,'500,5','102@hs-karlsruhe.de','102','02.08.2006 00:00:00','02.08.2006 00:00:00');
 INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (103,'Alpha','Anton','15.09.2003','F',NULL,NULL,0,'0,1','0,5','103@hs-karlsruhe.de','103','03.08.2006 00:00:00','03.08.2006 00:00:00');
 INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (104,'Delta','Dirk','30.04.2004','F',NULL,NULL,1,'0,15','1500,5','104@hs-karlsruhe.de','104','04.08.2006 00:00:00','04.08.2006 00:00:00');
-INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (105,'Epsilon','Emil','31.03.2005','P','G','M',0,NULL,'1500,5','105@hs-karlsruhe.de','105','05.08.2006 00:00:00','05.08.2006 00:00:00');
+INSERT INTO kunde (id, nachname, vorname, seit, art, familienstand, geschlecht, newsletter, rabatt, umsatz, email, password, erzeugt, aktualisiert) VALUES (105,'Epsilon','Emil','31.03.2005','P','G','M',0,'0,0','1500,5','105@hs-karlsruhe.de','105','05.08.2006 00:00:00','05.08.2006 00:00:00');
 
 --
 -- adresse
@@ -63,15 +63,15 @@ INSERT INTO bestellung (id, kunde_fk, idx, erzeugt, aktualisiert) VALUES (404,10
 --
 -- bestellposition
 --
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (500,400,300,1,'01.08.2006 00:00:00','01.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (501,400,301,4,'01.08.2006 00:00:00','01.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (502,401,302,5,'02.08.2006 00:00:00','02.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (503,402,303,3,'03.08.2006 00:00:00','03.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (504,402,304,2,'03.08.2006 00:00:00','03.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (505,403,305,1,'04.08.2006 00:00:00','04.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (506,404,300,5,'05.08.2006 00:00:00','05.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (507,404,301,2,'05.08.2006 00:00:00','05.08.2006 00:00:00');
-INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (508,404,302,8,'05.08.2006 00:00:00','05.08.2006 00:00:00');
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (500,400,300,1,0);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (501,400,301,4,1);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (502,401,302,5,0);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (503,402,303,3,0);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (504,402,304,2,1);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (505,403,305,1,0);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (506,404,300,5,0);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (507,404,301,2,1);
+INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, idx) VALUES (508,404,302,8,2);
 
 --
 -- lieferung

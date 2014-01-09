@@ -1,11 +1,10 @@
 package de.shop.kundenverwaltung.service;
 
-import javax.ejb.ApplicationException;
-
-@ApplicationException(rollback = true)
-public class EmailExistsException extends KundeServiceException {
-
-	private static final long serialVersionUID = -4360056269443883878L;
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
+public class EmailExistsException extends AbstractKundeServiceException {
+	private static final long serialVersionUID = 4867667611097919943L;
 	
 	private static final String MESSAGE_KEY = "kunde.emailExists";
 	private final String email;

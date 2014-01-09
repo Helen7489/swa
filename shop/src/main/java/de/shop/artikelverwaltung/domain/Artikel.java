@@ -1,13 +1,15 @@
 package de.shop.artikelverwaltung.domain;
 
 import static de.shop.util.Constants.KEINE_ID;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
-//import java.io.Serializable;
+import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Basic;
-//import javax.persistence.Column;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,20 +17,20 @@ import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-//import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.jboss.logging.Logger;
 
-import de.shop.util.persistence.AbstractAuditable;
-
-@XmlRootElement
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @Entity
 @Table(indexes = @Index(columnList = "bezeichnung"))
 @NamedQueries({
@@ -49,9 +51,9 @@ import de.shop.util.persistence.AbstractAuditable;
 						+ " WHERE    a.preis < :" + Artikel.PARAM_PREIS
 			 	        + " ORDER BY a.id ASC")
 })
-public class Artikel extends AbstractAuditable {
-
-	private static final long serialVersionUID = 1430771599450877428L;
+@XmlRootElement
+public class Artikel implements Serializable {
+	private static final long serialVersionUID = -3700579190995722151L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final int BEZEICHNUNG_LENGTH_MAX = 32;
@@ -64,23 +66,30 @@ public class Artikel extends AbstractAuditable {
 	public static final String PARAM_BEZEICHNUNG = "bezeichnung";
 	public static final String PARAM_PREIS = "preis";
 	
+
 	@Id
 	@GeneratedValue
-	@Basic(optional = false)
+	@Column(nullable = false, updatable = false)
 	private Long id = KEINE_ID;
 	
-	@NotNull(message = "{artikelverwaltung.artikel.bezeichnung.notnull}")
-	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikel.bezeichnung.length}")
-//	@Pattern(regexp = "[A-ZÄÖÜ][a-z0-9äöüß_-]+", message = "{artikelverwaltung.artikel.bezeichnung.pattern}")
-//	@Column(length = 32, nullable = false)
-	private String bezeichnung;
+	@Column(length = BEZEICHNUNG_LENGTH_MAX, nullable = false)
+	@NotNull(message = "{artikel.bezeichnung.notNull}")
+	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikel.bezeichnung.length}")
+	private String bezeichnung = "";
 	
-	@NotNull(message = "{artikelverwaltung.artikel.preis.notnull}")
-	@Digits(integer = 10, fraction = 2, message = "{artikelverwaltung.artikel.preis.digits}")
+	@Column(precision = 8, scale = 2)
 	private BigDecimal preis;
 	
-	@Basic(optional = false)
 	private boolean ausgesondert;
+	
+	@Basic(optional = false)
+	@Temporal(TIMESTAMP)
+	private Date erzeugt;
+
+	@Basic(optional = false)
+	@Temporal(TIMESTAMP)
+	@XmlTransient
+	private Date aktualisiert;
 	
 	public Artikel() {
 		super();
@@ -92,35 +101,46 @@ public class Artikel extends AbstractAuditable {
 		this.preis = preis;
 	}
 
+	@PrePersist
+	private void prePersist() {
+		erzeugt = new Date();
+		aktualisiert = new Date();
+	}
+	
 	@PostPersist
 	private void postPersist() {
 		LOGGER.debugf("Neuer Artikel mit ID=%d", id);
 	}
 	
+	@PreUpdate
+	private void preUpdate() {
+		aktualisiert = new Date();
+	}
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
-	
+
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
-	
+
+	public void setPreis(BigDecimal preis) {
+		this.preis = preis;
+	}
+
 	public BigDecimal getPreis() {
 		return preis;
 	}
-	
-	public void setPreis(BigDecimal preis) {
-		this.preis = preis.setScale(2);
-	}
-		
+
 	public boolean isAusgesondert() {
 		return ausgesondert;
 	}
@@ -128,20 +148,23 @@ public class Artikel extends AbstractAuditable {
 	public void setAusgesondert(boolean ausgesondert) {
 		this.ausgesondert = ausgesondert;
 	}
-/*	public Artikel() {
-		super();
-		this.id = null;
-		this.bezeichnung = null;
-		this.preis = null;
+
+	public Date getErzeugt() {
+		return erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 
-	public Artikel(Long id, String bezeichnung, BigDecimal preis) {
-		super();
-		this.id = id;
-		this.bezeichnung = bezeichnung;
-		this.preis = preis.setScale(2);
+	public void setErzeugt(Date erzeugt) {
+		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
-*/
+
+	public Date getAktualisiert() {
+		return aktualisiert == null ? null : (Date) aktualisiert.clone();
+	}
+
+	public void setAktualisiert(Date aktualisiert) {
+		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -187,8 +210,15 @@ public class Artikel extends AbstractAuditable {
 	public String toString() {
 		return "Artikel [id=" + id + ", bezeichnung=" + bezeichnung
 		       + ", preis=" + preis + ", ausgesondert=" + ausgesondert
-		       + ", " + super.toString() + "]";
+		       + ", erzeugt=" + erzeugt
+			   + ", aktualisiert=" + aktualisiert + "]";
 	}
 
-
+	public void setValues(Artikel a) {
+		bezeichnung = a.bezeichnung;
+		preis = a.preis;
+		erzeugt = a.erzeugt;
+		
+	}
+	
 }

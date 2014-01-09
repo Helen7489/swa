@@ -13,10 +13,13 @@ import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @Provider
 public class JaxRsLogFilter implements ContainerRequestFilter, ContainerResponseFilter {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-
+	
 	@Override
 	public void filter(ContainerRequestContext requestCtx) throws IOException {
 		LOGGER.debugf("URI: %s", requestCtx.getUriInfo().getAbsolutePath());
@@ -40,6 +43,6 @@ public class JaxRsLogFilter implements ContainerRequestFilter, ContainerResponse
 	@Override
 	public void filter(ContainerRequestContext requestCtx, ContainerResponseContext responseCtx) throws IOException {
 		LOGGER.debugf("Status Info: %d %s", responseCtx.getStatus(), responseCtx.getStatusInfo());
-		LOGGER.debugf("Location: %s", responseCtx.getLocation());
+		LOGGER.debugf("Location: %s", responseCtx.getLocation());		
 	}
 }

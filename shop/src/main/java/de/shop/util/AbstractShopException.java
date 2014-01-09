@@ -1,8 +1,11 @@
 package de.shop.util;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 public abstract class AbstractShopException extends RuntimeException {
-	private static final long serialVersionUID = -5878071095780980431L;
-
+	private static final long serialVersionUID = -1030863258479949134L;
+	
 	public AbstractShopException(String msg) {
 		super(msg);
 	}

@@ -1,76 +1,75 @@
 package de.shop.bestellverwaltung.service;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
-
-import de.shop.bestellverwaltung.domain.Bestellposition;
+import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.kundenverwaltung.domain.Kunde;
-import de.shop.util.Mock;
+import de.shop.bestellverwaltung.domain.Lieferung;
+import de.shop.kundenverwaltung.domain.AbstractKunde;
 
-// Logger eintragen
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
+public interface BestellungService {
+	public enum FetchType { NUR_BESTELLUNG, MIT_LIEFERUNGEN }
 
-public class BestellungService {
-
-	private   final int MAX_BESTELLUNGEN = 4;
-	private   final Long ARTIKEL_ID_1 = Long.valueOf(20);
-	private   final Long ARTIKEL_ID_2 = Long.valueOf(30);
-
-public Bestellung findBestellungById(Long id) {
-
-		// IDs setzen
-		final Bestellposition bp1 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_1));
-
-		bp1.setId(id + 1);
-		
-		final Bestellposition bp2 = new Bestellposition(Mock.findArtikelById(ARTIKEL_ID_2));
-		bp2.setId(id + 2);
+	/**
+	 * Bestellung zu gegebener ID suchen
+	 * @param id ID der gesuchten Bestellung
+	 * @param fetch Welche Objekte sollen mitgeladen werden, z.B. Lieferungen
+	 * @return Die gesuchte Bestellung oder null
+	 */
+	Bestellung findBestellungById(Long id, FetchType fetch);
 	
-		final Kunde kunde = Mock.findKundeById(id + 1);
-		
-		final Bestellung bestellung = new Bestellung();
-		bestellung.addBestellposition(bp1);
-		bestellung.addBestellposition(bp2);
-		
-		// ArrayList wird übernommen von addBestellposition
-		
-		bestellung.setKunde(kunde);
-		
-		bestellung.setId(id);
-		
-		// bestellung.setAusgeliefert(false); --> keine Lieferungsklasse vorhanden
-		
-		return bestellung;
-	}
-
-	public List<Bestellung> findBestellungenByKunde(Kunde kunde) {
-		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
-		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;
-		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
-		for (int i = 1; i <= anzahl; i++) {
-			final Bestellung bestellung = findBestellungById(Long.valueOf(i));
-			bestellung.setKunde(kunde);
-			bestellungen.add(bestellung);
-		}
-		kunde.setBestellungen(bestellungen);
-
-		return bestellungen;
-	}
-
+	/**
+	 * Kunde zur einer Bestellung suchen
+	 * @param id ID der Bestellung
+	 * @return Gesuchter Kunde oder null
+	 */
+	AbstractKunde findKundeById(Long id);
 	
-	public Bestellung createBestellung(Bestellung bestellung) {
-		
-		final Long id = bestellung.getId();
-		// System.out.print(id);
-		bestellung.setId(Long.valueOf(id));
-
-		
-		final URI KundeUri = bestellung.getKundeUri();
-		bestellung.setKundeUri(KundeUri);
-
-		return bestellung;
-	}
-
+	/**
+	 * Bestellungen zu einem gegebenen Kunden Suchen
+	 * @param kunde Gegebener Kunde
+	 * @return Liste der Bestellungen
+	 */
+	List<Bestellung> findBestellungenByKunde(AbstractKunde kunde);
+	
+	/**
+	 * Bestellung zu einem vorhandenen Kunden anlegen
+	 * @param bestellung neue Bestellung
+	 * @param kundeId ID des Kunden
+	 * @return Neue Bestellung einschliesslich generierter ID
+	 */
+	Bestellung createBestellung(Bestellung bestellung, Long kundeId);
+	
+	/**
+	 * Neue Bestellung zu einem vorhandenen Kunden anlegen
+	 * @param bestellung Neue Bestellung
+	 * @param kunde Der vorhandene Kunde
+	 * @return Neue Bestellung einschliesslich generierter ID
+	 */
+	Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde);
+	
+	/**
+	 * Artikel suchen die nur selten bestellt wurden
+	 * @param anzahl Obergrenze fuer maximale Bestellungsanzahl
+	 * @return Liste der Artikel
+	 */
+	List<Artikel> ladenhueter(int anzahl);
+	
+	/**
+	 * Lieferungen zu gegebenem Nummer-Praefix suchen
+	 * @param nr Nummer-Praefix
+	 * @return Liste der Lieferungen
+	 */
+	List<Lieferung> findLieferungen(String nr);
+	
+	/**
+	 * Eine neue Lieferung mit auszuliefernden Bestellungen anlegen
+	 * @param lieferung Neue Lieferung
+	 * @param bestellungen Zugehoerige Bestellungen
+	 * @return Neue Lieferung einschliesslich generierter ID
+	 */
+	Lieferung createLieferung(Lieferung lieferung, List<Bestellung> bestellungen);
 }
