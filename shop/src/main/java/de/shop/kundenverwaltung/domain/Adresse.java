@@ -50,7 +50,7 @@ public class Adresse implements Serializable {
 
 	@Column(length = PLZ_LENGTH_MAX, nullable = false)
 	@NotNull(message = "{adresse.plz.notNull}")
-	@Pattern(regexp = "\\d{5}", message = "{adresse.plz}")
+	@Pattern(regexp = "\\d{5}", message = "{adresse.plz.pattern}")
 	private String plz;
 
 	@Column(length = ORT_LENGTH_MAX, nullable = false)

@@ -21,6 +21,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -77,6 +78,8 @@ public class Artikel implements Serializable {
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikel.bezeichnung.length}")
 	private String bezeichnung = "";
 	
+	@NotNull(message = "{artikel.preis.notnull}")
+	@Digits(integer = 10, fraction = 2, message = "{artikel.preis.digits}")
 	@Column(precision = 8, scale = 2)
 	private BigDecimal preis;
 	

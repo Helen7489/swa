@@ -228,6 +228,7 @@ public abstract class AbstractKunde implements Serializable {
 	
 	@Column(length = EMAIL_LENGTH_MAX, nullable = false, unique = true)
 	@Email(message = "{kunde.email.pattern}")
+	@NotNull(message = "{kunde.email.notNull }")
 	private String email;
 	
 	private boolean newsletter = false;
