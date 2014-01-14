@@ -96,7 +96,8 @@ public class ArtikelService implements Serializable {
 		if (ids.size() == 1) {
 			// Genau 1 id: kein OR notwendig
 			pred = builder.equal(idPath, ids.get(0));
-		} else {
+		}
+		else {
 			// Mind. 2x id, durch OR verknuepft
 			final Predicate[] equals = new Predicate[ids.size()];
 			int i = 0;

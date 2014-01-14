@@ -157,7 +157,8 @@ public class KundeService implements Serializable {
 				
 				case MIT_BESTELLUNGEN:
 					try {
-						kunde = em.createNamedQuery(AbstractKunde.FIND_KUNDE_BY_ID_FETCH_BESTELLUNGEN, AbstractKunde.class)
+						kunde = em.createNamedQuery(AbstractKunde.FIND_KUNDE_BY_ID_FETCH_BESTELLUNGEN,
+																	AbstractKunde.class)
 								  .setParameter(AbstractKunde.PARAM_KUNDE_ID, id)
 								  .getSingleResult();
 					}
